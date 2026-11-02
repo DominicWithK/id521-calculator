@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CalcAssignment
 {
-    internal class Class1
+    internal class Vectors
     {
     }
 }

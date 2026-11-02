@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace DominikADigitalNumeracyAssignment
 {
-    internal class Parser
+    public class Parser
     {
+        public static void Process()
+        {
+
+        }
     }
 }
