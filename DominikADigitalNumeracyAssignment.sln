@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37111.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalcAssignment", "DominikADigitalNumeracyAssignment\CalcAssignment.csproj", "{6FFCDAB1-F984-4E29-B4E8-B7E29434D57A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject1", "TestProject1\TestProject1.csproj", "{DCB07B51-DEAE-4009-9F87-80A0E209EA0C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6FFCDAB1-F984-4E29-B4E8-B7E29434D57A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FFCDAB1-F984-4E29-B4E8-B7E29434D57A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FFCDAB1-F984-4E29-B4E8-B7E29434D57A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FFCDAB1-F984-4E29-B4E8-B7E29434D57A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCB07B51-DEAE-4009-9F87-80A0E209EA0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCB07B51-DEAE-4009-9F87-80A0E209EA0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCB07B51-DEAE-4009-9F87-80A0E209EA0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCB07B51-DEAE-4009-9F87-80A0E209EA0C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5AB18327-BC1A-443F-85EE-C0A39BB5C861}
+	EndGlobalSection
+EndGlobal
