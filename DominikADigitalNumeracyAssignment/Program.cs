@@ -5,6 +5,7 @@ namespace DominikADigitalNumeracyAssignment
     public class Program
     {
         static void Main(string[] args)
+            //Main user interface. Gets user's input. Features a 'help' function to list commands. Typing 'exit' breaks out of the loop and ends the program.
         {
             Console.WriteLine("-=-=-=- Command-Prompt Calculator -=-=-=-");
             Console.WriteLine("Type 'help' for a list of commands, 'exit' to exit.");

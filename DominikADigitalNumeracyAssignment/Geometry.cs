@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DominikADigitalNumeracyAssignment
+namespace CalcAssignment
 {
-    internal class GeometryVectors
+    internal class Class1
     {
     }
 }
