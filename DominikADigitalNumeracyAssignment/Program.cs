@@ -13,10 +13,25 @@
             {
                 Console.Write(">");
                 string? input = Console.ReadLine();
-                if (string.IsNullOrWhiteSpace(input)) { continue; }
-                if (input.Trim().ToLower() == "exit") { quit = true; }
-                if (input.Trim().ToLower() == "help") { Console.WriteLine(Help()); continue; }
-                Console.WriteLine(Parser.Process(input));
+                if (string.IsNullOrWhiteSpace(input))
+                {
+                }
+                else if (input.Trim().ToLower() == "exit")
+                {
+                    quit = true;
+                }
+                else if (input.Trim().ToLower() == "help")
+                {
+                    Console.WriteLine(Help());
+                }
+                else if (input.Trim().ToLower() == "clear")
+                {
+                    Console.Clear();
+                }
+                else
+                {
+                    Console.WriteLine(Parser.Process(input));
+                }
             }
         }
         // Returns the help text listing every supported command and its syntax.
@@ -24,15 +39,18 @@
         static string Help()
         {
             return """
+
         === Available Commands ===
 
         General
           help    Show this list
           exit    Quit the calculator
+          clear   Clears the calculator of text
 
         Cryptography
           caesarEn
           caesarDe
+
         """;
         }
     }

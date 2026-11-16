@@ -8,9 +8,9 @@ namespace DominikADigitalNumeracyAssignment
 {
     public class Parser
     {
-        public static void Process()
+        public static string Process(string input)
         {
-
+            return "Error: unknown command. Type 'help'.";
         }
     }
 }
