@@ -534,3 +534,966 @@ while still staying inside the same project.
 This gives you room to grow without adding complexity too early. If in six months you end up with hundreds of functions, Visual Studio can easily help you split classes into additional files without needing to redesign the whole solution. For where you are now, one project, multiple .cs files, and a single namespace hierarchy is the sweet spot.
 
 **How I used it:** I used this to help me create program files for my project folder. Using this, I created program.cs, binary.cs, cryptography.cs, geometry.cs, matrices.cs, ntheory.cs, parser.cs, program.cs, vectors.cs
+## Nov 17
+**Prompt:** Can you show me examples of how to create a parser for a mathematical calculator in C sharp?
+
+**Response:** Absolutely. If you're making a calculator that can evaluate expressions like:
+
+2 + 3 * 4
+(5 + 2) * 10
+10 / (2 + 3)
+
+
+then you generally need a parser. There are several levels of complexity.
+
+1. Simple Token Parser (Beginner)
+
+Split the expression into tokens and process them.
+
+Example:
+
+string expression = "5 + 3";
+
+string[] parts = expression.Split(' ');
+
+double num1 = double.Parse(parts[0]);
+string op = parts[1];
+double num2 = double.Parse(parts[2]);
+
+double answer = 0;
+
+switch (op)
+{
+    case "+":
+        answer = num1 + num2;
+        break;
+
+    case "-":
+        answer = num1 - num2;
+        break;
+
+    case "*":
+        answer = num1 * num2;
+        break;
+
+    case "/":
+        answer = num1 / num2;
+        break;
+}
+
+Console.WriteLine(answer);
+
+
+✅ Easy
+
+❌ Doesn't support:
+
+5 + 3 * 2
+(4 + 5)
+
+2. Recursive Descent Parser
+
+This is how many real calculators work.
+
+Grammar:
+
+Expression
+    = Term
+    + Term
+    - Term
+
+Term
+    = Factor
+    * Factor
+    / Factor
+
+Factor
+    = Number
+    ( Expression )
+
+
+This naturally handles order of operations.
+
+Example:
+
+2 + 3 * 4
+
+
+becomes:
+
+Expression
+├─ 2
+└─ +
+   └─ Term
+      ├─ 3
+      └─ *
+         └─ 4
+
+
+Result:
+
+2 + (3 * 4)
+= 14
+
+Basic Recursive Descent Example
+class Parser
+{
+    private string text;
+    private int pos;
+
+    public Parser(string text)
+    {
+        this.text = text.Replace(" ", "");
+        pos = 0;
+    }
+
+    public double Parse()
+    {
+        return ParseExpression();
+    }
+
+    private double ParseExpression()
+    {
+        double value = ParseTerm();
+
+        while (pos < text.Length)
+        {
+            if (text[pos] == '+')
+            {
+                pos++;
+                value += ParseTerm();
+            }
+            else if (text[pos] == '-')
+            {
+                pos++;
+                value -= ParseTerm();
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        return value;
+    }
+
+    private double ParseTerm()
+    {
+        double value = ParseFactor();
+
+        while (pos < text.Length)
+        {
+            if (text[pos] == '*')
+            {
+                pos++;
+                value *= ParseFactor();
+            }
+            else if (text[pos] == '/')
+            {
+                pos++;
+                value /= ParseFactor();
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        return value;
+    }
+
+    private double ParseFactor()
+    {
+        if (text[pos] == '(')
+        {
+            pos++;
+
+            double value = ParseExpression();
+
+            pos++; // Skip ')'
+
+            return value;
+        }
+
+        return ParseNumber();
+    }
+
+    private double ParseNumber()
+    {
+        int start = pos;
+
+        while (pos < text.Length &&
+               (char.IsDigit(text[pos]) || text[pos] == '.'))
+        {
+            pos++;
+        }
+
+        return double.Parse(text.Substring(start, pos - start));
+    }
+}
+
+
+Usage:
+
+Parser parser = new Parser("(5 + 3) * 2");
+
+Console.WriteLine(parser.Parse());
+
+
+Output:
+
+16
+
+3. Tokenizer + Parser (Most Professional)
+
+Rather than reading characters directly, first convert them into tokens.
+
+Input:
+
+(5+3)*2
+
+
+Tokenizer output:
+
+LeftParen
+Number(5)
+Plus
+Number(3)
+RightParen
+Multiply
+Number(2)
+
+
+Token class:
+
+class Token
+{
+    public string Type;
+    public string Value;
+
+    public Token(string type, string value)
+    {
+        Type = type;
+        Value = value;
+    }
+}
+
+
+Then your parser works on tokens instead of raw text.
+
+Benefits:
+
+✅ Easier to debug
+
+✅ Easier to add functions
+
+sqrt(25)
+sin(90)
+cos(45)
+
+
+✅ Easier to add variables
+
+x + y * 2
+
+
+✅ Used in compilers and interpreters
+
+4. Build an Abstract Syntax Tree (AST)
+
+Most advanced approach.
+
+Expression:
+
+5 + 3 * 4
+
+
+Creates:
+
+      +
+     / \
+    5   *
+       / \
+      3   4
+
+
+Classes:
+
+abstract class Node
+{
+    public abstract double Evaluate();
+}
+
+class NumberNode : Node
+{
+    public double Value;
+
+    public NumberNode(double value)
+    {
+        Value = value;
+    }
+
+    public override double Evaluate()
+    {
+        return Value;
+    }
+}
+
+class AddNode : Node
+{
+    public Node Left;
+    public Node Right;
+
+    public override double Evaluate()
+    {
+        return Left.Evaluate() + Right.Evaluate();
+    }
+}
+
+
+Then:
+
+Node tree = parser.Parse();
+
+Console.WriteLine(tree.Evaluate());
+
+
+This is how many programming language interpreters are structured.
+
+For a school project
+
+I'd recommend Recursive Descent Parsing. It's:
+
+Much simpler than an AST
+Handles brackets properly
+Handles operator precedence properly
+Looks impressive in an assignment
+Doesn't require advanced data structures
+
+A common progression is:
+
+Tokenizer
+    ↓
+Recursive Descent Parser
+    ↓
+Result
+
+
+which is very close to how real language parsers work. Since you've been working on C# console projects, building a tokenizer plus a recursive descent parser would be a great way to learn techniques that later apply to interpreters, scripting engines, and even compilers.
+
+**How I used it:** I used this to help me set up the command parser. I also had to create solutions to allow exponents, negative numbers and ensure brackets were solved first.
+**Prompt:** How do you make lists and how to use them?
+
+**Response:**In C#, a List<T> is like an array that can grow and shrink automatically. It's much more flexible than a normal array.
+
+First, make sure you have:
+
+using System.Collections.Generic;
+
+Creating a List
+
+A list of integers:
+
+List<int> numbers = new List<int>();
+
+
+Or with values already inside:
+
+List<int> numbers = new List<int>()
+{
+    10,
+    20,
+    30
+};
+
+
+A list of strings:
+
+List<string> names = new List<string>();
+
+Adding Items
+names.Add("Alice");
+names.Add("Bob");
+names.Add("Charlie");
+
+
+Now the list contains:
+
+Alice
+Bob
+Charlie
+
+Accessing Items
+
+Lists use indexes just like arrays:
+
+Console.WriteLine(names[0]);
+
+
+Output:
+
+Alice
+
+Console.WriteLine(names[2]);
+
+
+Output:
+
+Charlie
+
+Changing Items
+names[1] = "Bill";
+
+
+The list becomes:
+
+Alice
+Bill
+Charlie
+
+Getting the Number of Items
+Console.WriteLine(names.Count);
+
+
+Output:
+
+3
+
+
+Notice it's Count, not Length like an array.
+
+Looping Through a List
+For Loop
+for (int i = 0; i < names.Count; i++)
+{
+    Console.WriteLine(names[i]);
+}
+
+Foreach Loop
+foreach (string name in names)
+{
+    Console.WriteLine(name);
+}
+
+
+This is often cleaner when you don't need the index.
+
+Removing Items
+
+Remove by value:
+
+names.Remove("Bill");
+
+
+Remove by index:
+
+names.RemoveAt(0);
+
+Checking if an Item Exists
+if (names.Contains("Charlie"))
+{
+    Console.WriteLine("Found!");
+}
+
+Lists of Objects
+
+Since you've been working with Contestant objects, this is especially useful:
+
+List<Contestant> contestants = new List<Contestant>();
+
+
+Add contestants:
+
+contestants.Add(new Contestant("John", "Smith"));
+contestants.Add(new Contestant("Jane", "Brown"));
+
+
+Access them:
+
+Console.WriteLine(contestants[0].firstname);
+Console.WriteLine(contestants[0].lastname);
+
+Converting an Array to a List
+
+If you already have:
+
+int[] numbers = { 1, 2, 3, 4 };
+
+
+You can do:
+
+List<int> numberList = numbers.ToList();
+
+
+Requires:
+
+using System.Linq;
+
+When should you use a List instead of an Array?
+
+Use an array when the size never changes:
+
+Contestant[] contestants = new Contestant[23];
+
+
+Use a List when items may be added or removed:
+
+List<Contestant> finalists = new List<Contestant>();
+
+
+For example, in your Wheel of Fortune project, a List<Contestant> would be perfect for storing finalists because you can keep adding qualifying contestants without worrying about the size beforehand:
+
+List<Contestant> finalists = new List<Contestant>();
+
+if (contestants[i].score > 5000)
+{
+    finalists.Add(contestants[i]);
+}
+
+
+Then later:
+
+foreach (Contestant contestant in finalists)
+{
+    Console.WriteLine($"{contestant.firstname} {contestant.lastname}");
+}
+
+**How I used it:** I used this to understand lists, so that I could use them when creating my parser.
+**Prompt:** How do you make it so that if the user inputs something that would cause an error, it does something else instead of crashing the calculator?
+
+**Response:** The easiest way is to use exception handling with try and catch.
+
+For example:
+
+try
+{
+    double answer = parser.Parse();
+    Console.WriteLine(answer);
+}
+catch
+{
+    Console.WriteLine("Invalid expression.");
+}
+
+
+If the parser crashes because of bad input, the program won't stop. Instead, it'll print your message.
+
+For a calculator, though, it's usually better to prevent errors before they happen.
+
+For example, suppose the user enters:
+
+5 + *
+
+
+Your parser might reach the * and expect a number afterward.
+
+Instead of letting it crash with an index error, you can check:
+
+if (pos >= text.Length)
+{
+    throw new Exception("Expected a number.");
+}
+
+
+Then catch it later:
+
+try
+{
+    Console.WriteLine(parser.Parse());
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Error: {ex.Message}");
+}
+
+
+Output:
+
+Error: Expected a number.
+
+Common calculator errors
+Missing bracket
+
+Input:
+
+(5 + 3
+
+
+Check:
+
+if (pos >= text.Length || text[pos] != ')')
+{
+    throw new Exception("Missing closing bracket.");
+}
+
+Invalid character
+
+Input:
+
+5 + A
+
+
+Check:
+
+if (!char.IsDigit(text[pos]) &&
+    text[pos] != '(')
+{
+    throw new Exception($"Unexpected character: {text[pos]}");
+}
+
+Division by zero
+
+Input:
+
+10 / 0
+
+
+Check in ParseTerm:
+
+double divisor = ParseFactor();
+
+if (divisor == 0)
+{
+    throw new Exception("Cannot divide by zero.");
+}
+
+value /= divisor;
+
+Empty input
+
+Input:
+
+Check before parsing:
+
+string expression = Console.ReadLine();
+
+if (string.IsNullOrWhiteSpace(expression))
+{
+    Console.WriteLine("Please enter an expression.");
+    return;
+}
+
+A pattern that's common in calculators
+while (true)
+{
+    Console.Write("Expression: ");
+    string expression = Console.ReadLine();
+
+    try
+    {
+        Parser parser = new Parser(expression);
+
+        Console.WriteLine($"= {parser.Parse()}");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error: {ex.Message}");
+    }
+}
+
+
+This way the calculator never crashes. If the user enters:
+
+5 + *
+
+
+or
+
+10 / 0
+
+
+or
+
+((4 + 2)
+
+
+it shows an error and immediately asks for another expression instead of terminating the program.
+
+As you build the parser, try to throw meaningful exceptions wherever you detect bad input and have one catch block in Main that displays the error. That's how many real parsers handle syntax errors.
+
+**How I used it:** I applied this to my parser, this makes it so that a mathematical equation that would crash C sharp code would print an error to the user rather than crashing the console.
+**Prompt:** How can I get my calculator to sort through brackets first?
+
+**Response:** The most common approach is to repeatedly solve the innermost brackets first, replace them with their answer, then continue until no brackets remain.
+
+For example:
+
+2 * (3 + (4 * 5))
+
+
+First solve:
+
+(4 * 5)
+
+
+Result:
+
+20
+
+
+Replace it:
+
+2 * (3 + 20)
+
+
+Now solve:
+
+(3 + 20)
+
+
+Result:
+
+23
+
+
+Replace it:
+
+2 * 23
+
+
+Finally:
+
+46
+
+Finding the innermost brackets
+
+A simple way is to keep track of the last opening bracket:
+
+int open = input.LastIndexOf('(');
+
+
+Then find the matching closing bracket after it:
+
+int close = input.IndexOf(')', open);
+
+
+Example:
+
+2*(3+(4*5))
+
+
+Indexes:
+
+01234567890
+2*(3+(4*5))
+      ^
+
+
+LastIndexOf('(') finds the bracket before 4*5.
+
+Get what's inside
+string inside = input.Substring(open + 1,
+                                close - open - 1);
+
+
+Result:
+
+4*5
+
+Evaluate it
+
+Suppose your calculator method is:
+
+double result = Evaluate(inside);
+
+
+Result:
+
+20
+
+Replace the brackets
+
+You already asked about this line:
+
+input = input.Substring(0, open)
+      + result
+      + input.Substring(close + 1);
+
+
+It turns:
+
+2*(3+(4*5))
+
+
+into:
+
+2*(3+20)
+
+Repeat until no brackets exist
+while (input.Contains("("))
+{
+    int open = input.LastIndexOf('(');
+    int close = input.IndexOf(')', open);
+
+    string inside =
+        input.Substring(open + 1,
+                       close - open - 1);
+
+    double result = Evaluate(inside);
+
+    input = input.Substring(0, open)
+          + result
+          + input.Substring(close + 1);
+}
+
+
+After the loop finishes:
+
+2*(3+(4*5))
+
+
+becomes:
+
+2*23
+
+
+Then you can run your normal multiplication/division/addition/subtraction parser on the remaining expression.
+
+Error checking
+
+You'll also want to catch invalid brackets:
+
+if (input.Count(c => c == '(') !=
+    input.Count(c => c == ')'))
+{
+    Console.WriteLine("Brackets do not match.");
+}
+
+
+Or during parsing:
+
+if (close == -1)
+{
+    throw new Exception("Missing closing bracket.");
+}
+
+
+For a school calculator, the pattern is usually:
+
+1. Solve brackets
+2. Solve exponents
+3. Solve multiplication/division
+4. Solve addition/subtraction
+
+
+The while (input.Contains("(")) loop handles the B in BEDMAS by ensuring every bracketed expression is evaluated before anything outside it.
+
+**How I used it:** I used this as help to learn and create a solution to solving brackets first in my parser's calculations.
+**Prompt:** How to calculate exponents using C sharp? '^' doesn't work.
+
+**Response:** In C#, the ^ operator is not exponentiation.
+
+It's actually the bitwise XOR operator:
+
+Console.WriteLine(2 ^ 3);
+
+
+Output:
+
+1
+
+
+because:
+
+2 = 0010
+3 = 0011
+XOR = 0001
+
+
+For powers, use Math.Pow():
+
+double result = Math.Pow(2, 3);
+
+
+Output:
+
+8
+
+
+More examples:
+
+Math.Pow(5, 2); // 25
+Math.Pow(10, 3); // 1000
+Math.Pow(4, 0.5); // 2
+
+
+If you're writing your own calculator parser and want users to type:
+
+2^3
+
+
+you need to detect the ^ yourself and call Math.Pow().
+
+Example:
+
+double left = 2;
+double right = 3;
+
+double answer = Math.Pow(left, right);
+
+
+A simple parser section might look like:
+
+if (op == "^")
+{
+    result = Math.Pow(num1, num2);
+}
+
+
+or in a switch:
+
+switch (op)
+{
+    case "+":
+        result = num1 + num2;
+        break;
+
+    case "-":
+        result = num1 - num2;
+        break;
+
+    case "*":
+        result = num1 * num2;
+        break;
+
+    case "/":
+        result = num1 / num2;
+        break;
+
+    case "^":
+        result = Math.Pow(num1, num2);
+        break;
+}
+
+
+For BEDMAS, you'll usually want to evaluate all ^ operators before multiplication and division, since exponents have higher precedence:
+
+2 + 3 * 2^3
+
+
+should become:
+
+2 + 3 * 8
+
+
+then:
+
+2 + 24
+
+
+then:
+
+26
+
+
+So in your calculator, a common order is:
+
+1. Brackets ()
+2. Exponents ^
+3. Multiplication/Division * /
+4. Addition/Subtraction + -
+
+
+which sounds like exactly what you're building.
+
+**How I used it:** I used this to help create a solution to solving exponents in my parser.
