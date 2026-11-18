@@ -124,7 +124,9 @@ namespace DominikADigitalNumeracyAssignment
                 //Repeat 26 times - once per shift
                 for (int i = 0; i < 26; i++)
                 {
+                    //Get the decrypted text. i = shift
                     string decrypted = AffineDecrypt(text, multiplier, i);
+                    //Add it to results
                     results += $"a={multiplier}, b={i}: {decrypted}\n";
                 }
             }

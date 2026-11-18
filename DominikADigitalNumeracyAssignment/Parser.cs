@@ -111,6 +111,7 @@ namespace DominikADigitalNumeracyAssignment
                 {
                     string text = input.Substring(9);
                     string bruteforcetext = Cryptography.AffineBruteForce(text);
+                    Console.WriteLine($"Decrypting: {text}");
                     return bruteforcetext;
                 }
                 else if (input.StartsWith("isPrime "))
