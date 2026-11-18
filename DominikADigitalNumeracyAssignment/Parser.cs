@@ -16,62 +16,99 @@ namespace DominikADigitalNumeracyAssignment
                 //Remove extra spaces
                 input = input.Trim();
                 //Test for commands first
-                if (input.StartsWith("CaesarEn "))
+                //Caesar Encrypt
+                if (input.StartsWith("caesarEn "))
                 {
+                    bool valid = false;
+                    //Get text after 'CaesarEn '
                     string text = input.Substring(9);
+                    //Get shift amount
                     Console.Write("Shift: ");
                     int caesarenshift = Convert.ToInt32(Console.ReadLine());
                     string caesarentext = Cryptography.CaesarEncrypt(text, caesarenshift);
-                    return caesarentext;
+                    //Test for negative shift
+                    if (caesarenshift >= 0)
+                    {
+                        valid = true;
+                    }
+                    if (valid == true)
+                    {
+                        return caesarentext;
+                    }
+                    return "ERROR: Negative shift."; //Put this here because otherwise I get an error that not all paths return a value.
                 }
-                else if (input.StartsWith("CaesarDe "))
+                //Caesar Decrypt
+                else if (input.StartsWith("caesarDe "))
                 {
+                    bool valid = false;
                     string text = input.Substring(9);
                     Console.Write("Shift: ");
                     int caesardeshift = Convert.ToInt32(Console.ReadLine());
                     string caesardetext = Cryptography.CaesarEncrypt(text, 26 - caesardeshift);
-                    return caesardetext;
+                    if (caesardeshift >= 0)
+                    {
+                        valid = true;
+                    }
+                    if (valid == true)
+                    {
+                        return caesardetext;
+                    }
+                    return "ERROR: Negative shift.";
                 }
-                else if (input.StartsWith("AffineEn "))
+                else if (input.StartsWith("affineEn "))
                 {
                     string text = input.Substring(9);
                     bool valid = false;
-                    while (valid == false)
+                    //Valid multipliers only
+                    int[] validmultipliers = { 1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23, 25 };
+                    //Get multiplier + shift
+                    Console.Write("Multiplier: ");
+                    int multiplier = Convert.ToInt32(Console.ReadLine());
+                    Console.Write("Shift: ");
+                    int affineenshift = Convert.ToInt32(Console.ReadLine());
+                    //Check to make sure valid multiplier entered & positive shift
+                    for (int i = 0; i < validmultipliers.Length; i++)
                     {
-                        int[] validmultipliers = { 1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23, 25 };
-                        Console.Write("Multiplier: ");
-                        int multiplier = Convert.ToInt32(Console.ReadLine());
-                        Console.Write("Shift: ");
-                        int affineenshift = Convert.ToInt32(Console.ReadLine());
-                        for (int i = 0; i < validmultipliers.Length; i++)
+                        if (multiplier == validmultipliers[i] && affineenshift >= 0)
                         {
-                            if (multiplier == validmultipliers[i])
-                            {
-                                valid = true;
-                            }
-                        }
-                        if (valid == false)
-                        {
-                            Console.WriteLine();
-                            return "Available multipliers: 1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23, 25";
-                        }
-                        else
-                        {
-                            string affineentext = Cryptography.AffineEncrypt(text, multiplier, affineenshift);
-                            return affineentext;
+                            valid = true;
                         }
                     }
-                    return ""; //Put this here because otherwise I get an error that not all paths return a value.
+                    if (valid == false)
+                    {
+                        return "ERROR: Invalid multiplier or negative shift. Available multipliers: 1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23, 25";
+                    }
+                    string affineentext = Cryptography.AffineEncrypt(text, multiplier, affineenshift);
+                    return affineentext;
                 }
-                else if (input.StartsWith("AffineDe "))
+                else if (input.StartsWith("affineDe "))
                 {
                     string text = input.Substring(9);
-                    return "wip";
+                    bool valid = false;
+                    int[] validmultipliers = { 1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23, 25 };
+                    Console.Write("Multiplier: ");
+                    int multiplier = Convert.ToInt32(Console.ReadLine());
+                    Console.Write("Shift: ");
+                    int affinedeshift = Convert.ToInt32(Console.ReadLine());
+                    for (int i = 0; i < validmultipliers.Length; i++)
+                    {
+                        if (multiplier == validmultipliers[i] && affinedeshift >= 0)
+                        {
+                            valid = true;
+                        }
+                    }
+                    if (valid == false)
+                    {
+                        return "ERROR: Invalid multiplier or negative shift. Available multipliers: 1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23, 25";
+                    }
+                    string affinedetext = Cryptography.AffineDecrypt(text, multiplier, affinedeshift);
+                    return affinedetext;
                 }
-                else if (input.StartsWith("AffineBf "))
+                else if (input.StartsWith("affineBf "))
                 {
                     string text = input.Substring(9);
-                    return "wip";
+                    string bruteforcetext = Cryptography.AffineBruteForce(text);
+                    return bruteforcetext;
                 }
                 else
                 {
@@ -222,7 +259,7 @@ namespace DominikADigitalNumeracyAssignment
             //Catch: this happens if the user enters an invalid equation that would normally trigger a crash
             catch
             {
-                return "Error: Invalid equation.";
+                return "Error: Invalid input/equation.";
             }
         }
     }

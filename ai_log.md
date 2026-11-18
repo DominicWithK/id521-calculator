@@ -1670,3 +1670,109 @@ For a school assignment, I'd probably use the array version because it's easy to
 
 **How I used it:** I used this to help create a solution in making sure a valid multiplier is given when using affine encrypt/decrypt.
 ## #################################################################################################################################################>
+**Prompt:** Can you show me the formula for encrypting and decrypting affine?
+
+**Response:** Sure! The Affine Cipher uses two keys:
+
+a = multiplier
+b = shift
+
+The letter positions are:
+
+A=0, B=1, C=2, ..., Z=25
+
+Encryption Formula
+E(x)=(ax+b) mod 26E(x) = (ax + b) \bmod 26
+
+Where:
+
+xx = plaintext letter position
+aa = multiplier
+bb = shift
+E(x)E(x) = encrypted letter position
+
+Example with:
+
+a = 5
+b = 8
+H = 7
+
+
+Calculation:
+
+(5×7+8) mod 26(5 \times 7 + 8) \bmod 26 43 mod 26=1743 \bmod 26 = 17
+17 = R
+
+
+So:
+
+H → R
+
+Decryption Formula
+D(y)=a−1(y−b) mod 26D(y) = a^{-1}(y - b) \bmod 26
+
+Where:
+
+yy = encrypted letter position
+a−1a^{-1} = modular inverse of aa
+
+For example, if:
+
+a = 5
+
+
+then:
+
+a⁻¹ = 21
+
+
+because:
+
+5×21≡1(mod26)5 \times 21 \equiv 1 \pmod{26}
+
+Decrypting R:
+
+R = 17
+
+21×(17−8) mod 2621 \times (17 - 8) \bmod 26 21×9 mod 2621 \times 9 \bmod 26 189 mod 26=7189 \bmod 26 = 7
+7 = H
+
+
+So:
+
+R → H
+
+Corresponding C# Code
+
+Encryption:
+
+int encrypted = (multiplier * position + shift) % 26;
+
+
+Decryption:
+
+int decrypted = (inverse * (position - shift + 26)) % 26;
+
+
+The + 26 prevents the result from becoming negative before the % 26.
+
+Modular Inverses for Affine Cipher
+a   inverse
+1   1
+3   9
+5   21
+7   15
+9   3
+11  19
+15  7
+17  23
+19  11
+21  5
+23  17
+25  25
+
+
+These are exactly the multipliers you're already validating in your code.
+
+**How I used it:** I used this to create my methods for encrypting and decrypting affine by using the formulas given.
+## #################################################################################################################################################>
