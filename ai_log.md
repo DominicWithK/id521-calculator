@@ -4,7 +4,6 @@
 **Response:** Response goes here
 
 **How I used it:** Use case goes here
-
 ## #################################################################################################################################################>
 # AI Log: ID521 Calculator
 
@@ -1775,4 +1774,69 @@ a   inverse
 These are exactly the multipliers you're already validating in your code.
 
 **How I used it:** I used this to create my methods for encrypting and decrypting affine by using the formulas given.
+## #################################################################################################################################################>
+**Prompt:** Using modulus, how can I easily detect prime and non-prime numbers?
+
+**Response:** A simple way to detect whether a number is prime using the modulus operator (%) is to check if it has any divisors other than 1 and itself.
+
+Rule
+
+A number n is not prime if there exists an integer d such that:
+
+n % d == 0
+
+
+for some d between 2 and √n.
+
+If no such divisor exists, then n is prime.
+
+Examples
+17
+
+Check divisors from 2 to √17 ≈ 4:
+
+17 % 2 = 1
+17 % 3 = 2
+17 % 4 = 1
+
+
+None give 0, so 17 is prime.
+
+18
+
+Check divisors:
+
+18 % 2 = 0
+
+
+Since a divisor was found immediately, 18 is not prime.
+
+Why only up to √n?
+
+If a number has a factor larger than √n, the matching factor must be smaller than √n. So once you've checked all numbers up to √n, you've checked every possible factor pair.
+
+Pseudocode
+if n < 2:
+    not prime
+for d from 2 to sqrt(n):
+    if n % d == 0:
+        not prime
+prime
+
+Quick mental checks
+If n > 2 and n % 2 == 0, it's not prime.
+If n > 5 and n % 5 == 0, it's not prime.
+For larger numbers, test divisibility by primes only: 2, 3, 5, 7, 11, ...
+
+For example, to test 91:
+
+91 % 2 = 1
+91 % 3 = 1
+91 % 5 = 1
+91 % 7 = 0
+
+
+Since 91 % 7 = 0, 91 is not prime.
+
+**How I used it:** I used this to help make a formula when creating a method to test for prime numbers in Ntheory.
 ## #################################################################################################################################################>

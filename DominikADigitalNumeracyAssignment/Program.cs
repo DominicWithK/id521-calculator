@@ -47,8 +47,14 @@
           clear   Clears the calculator of text
 
         Cryptography
-          caesarEn
-          caesarDe
+          caesarEn (text)
+          caesarDe (text)
+          affineEn (text)
+          affineDe (text)
+          affineBf (text)
+
+        Number Theory
+          isPrime (number)
 
         Operators
           +, -, *, /, %, ^

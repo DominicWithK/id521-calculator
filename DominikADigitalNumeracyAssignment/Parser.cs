@@ -55,6 +55,7 @@ namespace DominikADigitalNumeracyAssignment
                     }
                     return "ERROR: Negative shift.";
                 }
+                //Affine encrypt
                 else if (input.StartsWith("affineEn "))
                 {
                     string text = input.Substring(9);
@@ -81,6 +82,7 @@ namespace DominikADigitalNumeracyAssignment
                     string affineentext = Cryptography.AffineEncrypt(text, multiplier, affineenshift);
                     return affineentext;
                 }
+                //Affine decrypt
                 else if (input.StartsWith("affineDe "))
                 {
                     string text = input.Substring(9);
@@ -104,11 +106,18 @@ namespace DominikADigitalNumeracyAssignment
                     string affinedetext = Cryptography.AffineDecrypt(text, multiplier, affinedeshift);
                     return affinedetext;
                 }
+                //Affine brute force
                 else if (input.StartsWith("affineBf "))
                 {
                     string text = input.Substring(9);
                     string bruteforcetext = Cryptography.AffineBruteForce(text);
                     return bruteforcetext;
+                }
+                else if (input.StartsWith("isPrime "))
+                {
+                    int number  = Convert.ToInt32(input.Substring(8));
+                    string isaprime = NTheory.isPrime(number);
+                    return isaprime;
                 }
                 else
                 {
