@@ -1,12 +1,11 @@
-﻿## AI log: example
+﻿## AI log format
+**Prompt:** Prompt goes here
 
-## Date
-**Prompt:**
+**Response:** Response goes here
 
-**Response:**
+**How I used it:** Use case goes here
 
-**How I used it:**
-
+## #################################################################################################################################################>
 # AI Log: ID521 Calculator
 
 ## 2 Nov 2026: Project setup
@@ -307,7 +306,7 @@ This separation makes your code easier to test, debug, and expand when your calc
 Honestly, if you structure it as UI → Modules → Models → Utilities from the start, you'll be able to keep adding new mathematical topics for years without needing to redesign the whole application.
 
 **How I used it:** I used this information to set it up as a repo on github. I also used this to think about how I would start my project.
-## 2 Nov 2026: Project setup
+## #################################################################################################################################################>
 **Prompt:** Should I store them as multiple functions on the .cs file, or should I use multiple .cs files for different operations?
 
 **Response:** For a project of this size, definitely use multiple .cs files. Putting everything into one file will become painful very quickly once you have dozens of operations.
@@ -440,7 +439,7 @@ Six months from now you'll thank yourself.
 My recommendation: Start with one .cs file per major category (MatrixService.cs, BinaryService.cs, etc.). That's simple enough for now, but scales well when the project becomes much larger.
 
 **How I used it:** I used this to think about how I would structure and order files in my program folder.
-## 2 Nov 2026: Project setup
+## #################################################################################################################################################>
 **Prompt:** Can I put them all under one project with one namespace instead?
 
 **Response:** Yes, absolutely. For a student project, I'd actually recommend one project and one namespace to start with.
@@ -534,7 +533,7 @@ while still staying inside the same project.
 This gives you room to grow without adding complexity too early. If in six months you end up with hundreds of functions, Visual Studio can easily help you split classes into additional files without needing to redesign the whole solution. For where you are now, one project, multiple .cs files, and a single namespace hierarchy is the sweet spot.
 
 **How I used it:** I used this to help me create program files for my project folder. Using this, I created program.cs, binary.cs, cryptography.cs, geometry.cs, matrices.cs, ntheory.cs, parser.cs, program.cs, vectors.cs
-## Nov 17
+## #################################################################################################################################################>
 **Prompt:** Can you show me examples of how to create a parser for a mathematical calculator in C sharp?
 
 **Response:** Absolutely. If you're making a calculator that can evaluate expressions like:
@@ -882,6 +881,7 @@ Result
 which is very close to how real language parsers work. Since you've been working on C# console projects, building a tokenizer plus a recursive descent parser would be a great way to learn techniques that later apply to interpreters, scripting engines, and even compilers.
 
 **How I used it:** I used this to help me set up the command parser. I also had to create solutions to allow exponents, negative numbers and ensure brackets were solved first.
+## #################################################################################################################################################>
 **Prompt:** How do you make lists and how to use them?
 
 **Response:**In C#, a List<T> is like an array that can grow and shrink automatically. It's much more flexible than a normal array.
@@ -1059,6 +1059,7 @@ foreach (Contestant contestant in finalists)
 }
 
 **How I used it:** I used this to understand lists, so that I could use them when creating my parser.
+## #################################################################################################################################################>
 **Prompt:** How do you make it so that if the user inputs something that would cause an error, it does something else instead of crashing the calculator?
 
 **Response:** The easiest way is to use exception handling with try and catch.
@@ -1212,6 +1213,7 @@ it shows an error and immediately asks for another expression instead of termina
 As you build the parser, try to throw meaningful exceptions wherever you detect bad input and have one catch block in Main that displays the error. That's how many real parsers handle syntax errors.
 
 **How I used it:** I applied this to my parser, this makes it so that a mathematical equation that would crash C sharp code would print an error to the user rather than crashing the console.
+## #################################################################################################################################################>
 **Prompt:** How can I get my calculator to sort through brackets first?
 
 **Response:** The most common approach is to repeatedly solve the innermost brackets first, replace them with their answer, then continue until no brackets remain.
@@ -1379,6 +1381,7 @@ For a school calculator, the pattern is usually:
 The while (input.Contains("(")) loop handles the B in BEDMAS by ensuring every bracketed expression is evaluated before anything outside it.
 
 **How I used it:** I used this as help to learn and create a solution to solving brackets first in my parser's calculations.
+## #################################################################################################################################################>
 **Prompt:** How to calculate exponents using C sharp? '^' doesn't work.
 
 **Response:** In C#, the ^ operator is not exponentiation.
@@ -1497,3 +1500,173 @@ So in your calculator, a common order is:
 which sounds like exactly what you're building.
 
 **How I used it:** I used this to help create a solution to solving exponents in my parser.
+## #################################################################################################################################################>
+**Prompt:** Can can I create a simple casear encryption method with C#?
+
+**Response:** Absolutely. A Caesar cipher can be written with just a few lines of code.
+
+Here's a beginner-friendly method:
+
+static string CaesarEncrypt(string text, int shift)
+{
+    string encrypted = "";
+
+    foreach (char letter in text)
+    {
+        encrypted += (char)(letter + shift);
+    }
+
+    return encrypted;
+}
+
+
+Usage:
+
+string secret = CaesarEncrypt("HELLO", 3);
+
+Console.WriteLine(secret);
+
+
+Output:
+
+KHOOR
+
+To decrypt it
+
+Just subtract the same shift:
+
+static string CaesarDecrypt(string text, int shift)
+{
+    string decrypted = "";
+
+    foreach (char letter in text)
+    {
+        decrypted += (char)(letter - shift);
+    }
+
+    return decrypted;
+}
+
+
+Usage:
+
+string encrypted = CaesarEncrypt("HELLO", 3);
+string decrypted = CaesarDecrypt(encrypted, 3);
+
+Console.WriteLine(decrypted);
+
+
+Output:
+
+HELLO
+
+One problem
+
+The simple version above doesn't wrap around the alphabet. For example:
+
+Z + 3 = ]
+
+
+instead of becoming C.
+
+If your assignment expects a proper Caesar cipher, use this version:
+
+static string CaesarEncrypt(string text, int shift)
+{
+    string result = "";
+
+    foreach (char c in text)
+    {
+        if (char.IsLetter(c))
+        {
+            char offset = char.IsUpper(c) ? 'A' : 'a';
+            result += (char)(((c - offset + shift) % 26) + offset);
+        }
+        else
+        {
+            result += c;
+        }
+    }
+
+    return result;
+}
+
+
+This correctly turns:
+
+XYZ
+
+
+into:
+
+ABC
+
+
+which is how a true Caesar cipher works. For a beginner C# class, this version is usually the one teachers are looking for.
+
+**How I used it:** I used this to create methods for my caesar encryption and decryption. I found out that decryption was just a reverse in shift, so I didn't need to write a new method for decrypting.
+## #################################################################################################################################################>
+**Prompt:** How can I make a check for '1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23, 25' to make sure a valid multiplier is given
+
+**Response:** The cleanest way is to store the valid multipliers in an array and check whether the user's value exists in it.
+
+int[] validMultipliers = { 1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23, 25 };
+
+int a = int.Parse(Console.ReadLine());
+
+bool valid = false;
+
+for (int i = 0; i < validMultipliers.Length; i++)
+{
+    if (a == validMultipliers[i])
+    {
+        valid = true;
+        break;
+    }
+}
+
+if (!valid)
+{
+    Console.WriteLine("Invalid multiplier.");
+}
+
+
+Or, if you're allowed to use the Array class:
+
+int[] validMultipliers = { 1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23, 25 };
+
+if (!Array.Exists(validMultipliers, x => x == a))
+{
+    Console.WriteLine("Invalid multiplier.");
+}
+
+Even Better
+
+The real rule for an Affine cipher is that a must be coprime with 26. Instead of hardcoding the list, you can check mathematically:
+
+static int GCD(int a, int b)
+{
+    while (b != 0)
+    {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+
+    return a;
+}
+
+if (GCD(multiplier, 26) != 1)
+{
+    Console.WriteLine("Invalid multiplier.");
+}
+
+
+This automatically accepts: 1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23, 25
+
+and rejects: 2, 4, 6, 8, 10, 12, ...
+
+For a school assignment, I'd probably use the array version because it's easy to understand and directly shows the allowed values.
+
+**How I used it:** I used this to help create a solution in making sure a valid multiplier is given when using affine encrypt/decrypt.
+## #################################################################################################################################################>

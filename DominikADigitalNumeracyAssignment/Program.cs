@@ -3,7 +3,7 @@
     public static class Program
     {
         public static void Main(string[] args)
-            //Main user interface. Gets user's input. Features a 'help' function to list commands. Typing 'exit' breaks out of the loop and ends the program.
+            //Main user interface. Gets user's input. Features a 'help' function to list commands. Typing 'exit' breaks out of the loop and ends the program
         {
             Console.WriteLine("-=-=-=-=-=-= Command-Prompt Calculator =-=-=-=-=-=-");
             Console.WriteLine("Type 'help' for a list of commands, 'exit' to exit.");
@@ -34,8 +34,7 @@
                 }
             }
         }
-        // Returns the help text listing every supported command and its syntax.
-        // Difficulty: keeping it in sync as commands are added. Solved by ...
+        //Returns the help text listing every supported command and operator
         static string Help()
         {
             return """
@@ -51,6 +50,8 @@
           caesarEn
           caesarDe
 
+        Operators
+          +, -, *, /, %, ^
         """;
         }
     }
