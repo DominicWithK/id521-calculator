@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DominikADigitalNumeracyAssignment
 {
@@ -112,11 +113,93 @@ namespace DominikADigitalNumeracyAssignment
                 Console.WriteLine($"Decrypting: {text}");
                 return bruteforcetext;
             }
+            //Check for primes
             else if (input.StartsWith("isPrime "))
             {
-                int number  = Convert.ToInt32(input.Substring(8));
+                string usernumber = input.Substring(8);
+                if (!int.TryParse(usernumber, out int number))
+                {
+                    return "Error: Number must be a whole number.";
+                }
                 string isaprime = NTheory.isPrime(number);
                 return isaprime;
+            }
+            //Linear congruential method
+            else if (input.StartsWith("LCG "))
+            {
+                string number = input.Substring(4);
+                if (!int.TryParse(number, out int seed))
+                {
+                    return "ERROR: Seed must be a whole number.";
+                }
+                string randomnumbers = NTheory.LCG(seed);
+                return randomnumbers;
+            }
+            //UPC, EAN and ISBN
+            else if (input.StartsWith("checkDigit "))
+            {
+                string code = input.Substring(11);
+                if (!int.TryParse(code, out int number))
+                {
+                    return "ERROR: Code must be a whole number.";
+                }
+                string calculated = NTheory.CheckDigit(code);
+                return calculated;
+            }
+            //Decimal to binary
+            else if (input.StartsWith("dectoBin "))
+            {
+                string userinput = input.Substring(9);
+                if (!int.TryParse(userinput, out int number))
+                {
+                    return "ERROR: Number must be a whole number.";
+                }
+                string binary = Binary.DecimalToBinary(number);
+                return binary;
+            }
+            //Decimal to hexadecimal
+            else if (input.StartsWith("dectoHex "))
+            {
+                string userinput = input.Substring(9);
+                if (!int.TryParse(userinput, out int number))
+                {
+                    return "ERROR: Number must be a whole number.";
+                }
+                string hex = Binary.DecimalToHexadecimal(number);
+                return hex;
+            }
+            //Binary to decimal
+            else if (input.StartsWith("bintoDec "))
+            {
+                string userinput = input.Substring(9);
+                if (!int.TryParse(userinput, out int number))
+                {
+                    return "ERROR: Number must be a whole number.";
+                }
+                int dec = Binary.BinaryToDecimal(userinput);
+                return $"{dec}";
+            }
+            //Binary to hexadecimal
+            else if (input.StartsWith("bintoHex "))
+            {
+                string userinput = input.Substring(9);
+                if (!int.TryParse(userinput, out int number))
+                {
+                    return "ERROR: Number must be a whole number.";
+                }
+                string hex = Binary.BinaryToHex(userinput);
+                return hex;
+            }
+            //Hexadecimal to decimal
+            else if (input.StartsWith("hextoDec "))
+            {
+                string userinput = input.Substring(9);
+                if (!int.TryParse(userinput, out int number))
+                {
+                    return "ERROR: Number must be a whole number.";
+                }
+                int dec = Binary.HexToDecimal(userinput);
+                return $"{dec}";
             }
             else
             {

@@ -1840,3 +1840,101 @@ Since 91 % 7 = 0, 91 is not prime.
 
 **How I used it:** I used this to help make a formula when creating a method to test for prime numbers in Ntheory.
 ## #################################################################################################################################################>
+**Prompt:** How can I check if something input by the user in C# visual studio has characters that aren't numbers, so that my program can stop crashing if the user enters letters in certain calculations?
+
+**Response:** The best way is to use int.TryParse() instead of converting the string directly.
+
+Method 1: Use TryParse (Recommended)
+string input = Console.ReadLine();
+
+if (int.TryParse(input, out int number))
+{
+    Console.WriteLine("Valid number: " + number);
+}
+else
+{
+    Console.WriteLine("Error: Please enter a whole number.");
+}
+
+
+If the user enters:
+
+123
+
+
+it's accepted.
+
+If they enter:
+
+abc
+
+
+or
+
+12a3
+
+
+it doesn't crash and displays the error message.
+
+Method 2: Check Every Character
+
+If you specifically want to detect non-numeric characters:
+
+bool valid = true;
+
+foreach (char c in input)
+{
+    if (!char.IsDigit(c))
+    {
+        valid = false;
+        break;
+    }
+}
+
+if (valid)
+{
+    Console.WriteLine("Only numbers entered.");
+}
+else
+{
+    Console.WriteLine("Contains non-numeric characters.");
+}
+
+
+Examples:
+
+Input	Result12345	Valid
+12a45	Invalid
+hello	Invalid
+Method 3: For Your Calculator Commands
+
+Instead of:
+
+int number = Convert.ToInt32(input.Substring(8));
+
+
+do:
+
+string numberText = input.Substring(8);
+
+if (!int.TryParse(numberText, out int number))
+{
+    return "Error: Number must contain only digits.";
+}
+
+return NTheory.isPrime(number);
+
+
+This prevents crashes when users type:
+
+isPrime abc
+isPrime hello
+isPrime 12a
+
+
+and lets your program return a friendly error instead.
+
+For a calculator project, TryParse() is almost always the simplest and most professional solution.
+
+**How I used it:** I used this to create a solution to checking if certain inputs have illegal characters so that I can print an error message instead of the compiler crashing.
+## #################################################################################################################################################>

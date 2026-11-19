@@ -8,7 +8,7 @@ namespace DominikADigitalNumeracyAssignment
 {
     public class Cryptography
     {
-        // You can reverse this by taking away shift from 26
+        // You can reverse this by taking away shift from 26. User can enter shift instead of it being limited to 3
         public static string CaesarEncrypt(string text, int shift)
         {
             string encryptedtext = "";
@@ -38,6 +38,7 @@ namespace DominikADigitalNumeracyAssignment
             }
             return encryptedtext;
         }
+        //Affine encrypt = multiplier and shift can be entered by user
         public static string AffineEncrypt(string text, int multiplier, int affineenshift)
         {
             string encryptedtext = "";
@@ -59,6 +60,7 @@ namespace DominikADigitalNumeracyAssignment
             }
             return encryptedtext;
         }
+        //Affine decrypt = multiplier and shift can be entered by user
         public static string AffineDecrypt(string text, int multiplier, int affinedeshift)
         {
             string decryptedtext = "";
@@ -81,9 +83,9 @@ namespace DominikADigitalNumeracyAssignment
             }
             return decryptedtext;
         }
+        //Switches multiplier to it's inverse value
         static int Inverse(int multiplier)
         {
-            //Switches multiplier to it's inverse value
             switch (multiplier)
             {
                 case 1: 
@@ -114,6 +116,7 @@ namespace DominikADigitalNumeracyAssignment
                     return -1;
             }
         }
+        //User enters a text to decrypt and this method does every combination of multiplier and increment
         public static string AffineBruteForce(string text)
         {
             int[] multipliers = { 1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23, 25 };
