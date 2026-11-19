@@ -12,7 +12,7 @@
             while (quit == false)
             {
                 Console.Write(">");
-                string? input = Console.ReadLine();
+                string input = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(input))
                 {
                 }
@@ -47,29 +47,30 @@
           clear   Clears the calculator of text
 
         Cryptography
-          caesarEn (text)                      Caesar encryption
-          caesarDe (text)                      Caesar decryption
-          affineEn (text)                      Affine encryption
-          affineDe (text)                      Affine decryption
-          affineBf (text)                      Affine decryption brute force
+          caesaren (text)                      Caesar encryption
+          caesarde (text)                      Caesar decryption
+          affineen (text)                      Affine encryption
+          affinede (text)                      Affine decryption
+          affinebf (text)                      Affine decryption brute force
 
         Number Theory
-          isPrime (number)                     Check for primes
-          LCG (seed)                           Linear congruential method
-          checkDigit (code)                    UPC, EAN, ISBN
+          isprime (number)                     Check for primes
+          lcg (seed)                           Linear congruential method
+          checkdigit (code)                    UPC, EAN, ISBN
 
         Binary
-          binAdd (binary) (binary)             Binary addition of a signed/unsigned number
-          binSub (binary) (binary)             Binary subtraction of an unsigned number
-          signedSub (binary) (binary)          Binary subtraction of a signed number
-          BCD (BCD) (BCD)                      Addition of BCD numbers
-          dectoBin (decimal)                   Decimal to binary
-          dectoHex (decimal)                   Decimal to hexadecimal
-          bintoDec (binary)                    Binary to decimal
-          bintoHex (binary)                    Binary to hexadecimal
-          hextoDec (hexadecimal)               Hexadecimal to decimal
-          hextoBin (hexadecimal)               Hexadecimal to binary
-          dectoBCD (decimal)                   Decimal to binary coded decimal
+          binadd (binary) (binary)             Binary addition of a signed/unsigned number
+          binsub (binary) (binary)             Binary subtraction of an unsigned number
+          signedsub (binary) (binary)          Binary subtraction of a signed number
+          bcd (BCD) (BCD)                      Addition of BCD numbers
+          dectobin (decimal)                   Decimal to binary
+          dectohex (decimal)                   Decimal to hexadecimal
+          bintodec (binary)                    Binary to decimal
+          bintohex (binary)                    Binary to hexadecimal
+          hextodec (hexadecimal)               Hexadecimal to decimal
+          hextobin (hexadecimal)               Hexadecimal to binary
+          dectobcd (decimal)                   Decimal to binary coded decimal
+          bcdtodec (BCD)                       Binary coded decimal to decimal
 
         Operators
           +, -, *, /, %, ^

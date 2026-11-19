@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DominikADigitalNumeracyAssignment
 {
@@ -15,15 +14,20 @@ namespace DominikADigitalNumeracyAssignment
             //Remove extra spaces
             input = input.Trim();
             //Test for commands first
-            //Caesar Encrypt
-            if (input.StartsWith("caesarEn "))
+            //Caesar encrypt
+            if (input.StartsWith("caesaren "))
             {
                 bool valid = false;
                 //Get text after 'CaesarEn '
                 string text = input.Substring(9);
                 //Get shift amount
                 Console.Write("Shift: ");
-                int caesarenshift = Convert.ToInt32(Console.ReadLine());
+                string inputshift = Console.ReadLine();
+                //Make sure user's input is a number
+                if (!int.TryParse(inputshift, out int caesarenshift))
+                {
+                    return "ERROR: Invalid equation";
+                }
                 string caesarentext = Cryptography.CaesarEncrypt(text, caesarenshift);
                 //Test for negative shift
                 if (caesarenshift >= 0)
@@ -36,8 +40,8 @@ namespace DominikADigitalNumeracyAssignment
                 }
                 return "ERROR: Invalid equation";
             }
-            //Caesar Decrypt
-            else if (input.StartsWith("caesarDe "))
+            //Caesar decrypt
+            else if (input.StartsWith("caesarde "))
             {
                 bool valid = false;
                 string text = input.Substring(9);
@@ -59,7 +63,7 @@ namespace DominikADigitalNumeracyAssignment
                 return "ERROR: Invalid equation";
             }
             //Affine encrypt
-            else if (input.StartsWith("affineEn "))
+            else if (input.StartsWith("affineen "))
             {
                 string text = input.Substring(9);
                 bool valid = false;
@@ -67,9 +71,17 @@ namespace DominikADigitalNumeracyAssignment
                 int[] validmultipliers = { 1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23, 25 };
                 //Get multiplier + shift
                 Console.Write("Multiplier: ");
-                int multiplier = Convert.ToInt32(Console.ReadLine());
+                string inputmultiplier = Console.ReadLine();
+                if (!int.TryParse(inputmultiplier, out int multiplier))
+                {
+                    return "ERROR: Invalid equation";
+                }
                 Console.Write("Shift: ");
-                int affineenshift = Convert.ToInt32(Console.ReadLine());
+                string inputshift = Console.ReadLine();
+                if (!int.TryParse(inputshift, out int affineenshift))
+                {
+                    return "ERROR: Invalid equation";
+                }
                 //Check to make sure valid multiplier entered & positive shift
                 for (int i = 0; i < validmultipliers.Length; i++)
                 {
@@ -86,15 +98,23 @@ namespace DominikADigitalNumeracyAssignment
                 return affineentext;
             }
             //Affine decrypt
-            else if (input.StartsWith("affineDe "))
+            else if (input.StartsWith("affinede "))
             {
                 string text = input.Substring(9);
                 bool valid = false;
                 int[] validmultipliers = { 1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23, 25 };
                 Console.Write("Multiplier: ");
-                int multiplier = Convert.ToInt32(Console.ReadLine());
+                string inputmultiplier = Console.ReadLine();
+                if (!int.TryParse(inputmultiplier, out int multiplier))
+                {
+                    return "ERROR: Invalid equation";
+                }
                 Console.Write("Shift: ");
-                int affinedeshift = Convert.ToInt32(Console.ReadLine());
+                string inputshift = Console.ReadLine();
+                if (!int.TryParse(inputshift, out int affinedeshift))
+                {
+                    return "ERROR: Invalid equation";
+                }
                 for (int i = 0; i < validmultipliers.Length; i++)
                 {
                     if (multiplier == validmultipliers[i] && affinedeshift >= 0)
@@ -110,7 +130,7 @@ namespace DominikADigitalNumeracyAssignment
                 return affinedetext;
             }
             //Affine brute force
-            else if (input.StartsWith("affineBf "))
+            else if (input.StartsWith("affinebf "))
             {
                 string text = input.Substring(9);
                 string bruteforcetext = Cryptography.AffineBruteForce(text);
@@ -118,7 +138,7 @@ namespace DominikADigitalNumeracyAssignment
                 return bruteforcetext;
             }
             //Check for primes
-            else if (input.StartsWith("isPrime "))
+            else if (input.StartsWith("isprime "))
             {
                 string usernumber = input.Substring(8);
                 if (!int.TryParse(usernumber, out int number))
@@ -129,7 +149,7 @@ namespace DominikADigitalNumeracyAssignment
                 return isaprime;
             }
             //Linear congruential method
-            else if (input.StartsWith("LCG "))
+            else if (input.StartsWith("lcg "))
             {
                 string number = input.Substring(4);
                 if (!int.TryParse(number, out int seed))
@@ -140,18 +160,21 @@ namespace DominikADigitalNumeracyAssignment
                 return randomnumbers;
             }
             //UPC, EAN and ISBN
-            else if (input.StartsWith("checkDigit "))
+            else if (input.StartsWith("checkdigit "))
             {
                 string code = input.Substring(11);
-                if (!int.TryParse(code, out int number))
+                //Check to make sure numbers only
+                foreach (char character in code)
                 {
-                    return "ERROR: Invalid equation";
+                    if (!char.IsDigit(character))
+                    {
+                        return "ERROR: Invalid equation";
+                    }
                 }
-                string calculated = NTheory.CheckDigit(code);
-                return calculated;
+                return NTheory.CheckDigit(code);
             }
             //Decimal to binary
-            else if (input.StartsWith("dectoBin "))
+            else if (input.StartsWith("dectobin "))
             {
                 string userinput = input.Substring(9);
                 if (!int.TryParse(userinput, out int number))
@@ -162,7 +185,7 @@ namespace DominikADigitalNumeracyAssignment
                 return binary;
             }
             //Decimal to hexadecimal
-            else if (input.StartsWith("dectoHex "))
+            else if (input.StartsWith("dectohex "))
             {
                 string userinput = input.Substring(9);
                 if (!int.TryParse(userinput, out int number))
@@ -172,8 +195,19 @@ namespace DominikADigitalNumeracyAssignment
                 string hex = Binary.DecimalToHexadecimal(number);
                 return hex;
             }
+            //Decimal to BCD
+            else if (input.StartsWith("dectobcd "))
+            {
+                string userinput = input.Substring(9);
+                if (!int.TryParse(userinput, out int number))
+                {
+                    return "ERROR: Invalid equation";
+                }
+                string bcd = Binary.DecimalToBCD(userinput);
+                return bcd;
+            }
             //Binary to decimal
-            else if (input.StartsWith("bintoDec "))
+            else if (input.StartsWith("bintodec "))
             {
                 string userinput = input.Substring(9);
                 if (!int.TryParse(userinput, out int number))
@@ -184,7 +218,7 @@ namespace DominikADigitalNumeracyAssignment
                 return $"{dec}";
             }
             //Binary to hexadecimal
-            else if (input.StartsWith("bintoHex "))
+            else if (input.StartsWith("bintohex "))
             {
                 string userinput = input.Substring(9);
                 if (!int.TryParse(userinput, out int number))
@@ -195,7 +229,7 @@ namespace DominikADigitalNumeracyAssignment
                 return hex;
             }
             //Hexadecimal to decimal
-            else if (input.StartsWith("hextoDec "))
+            else if (input.StartsWith("hextodec "))
             {
                 string userinput = input.Substring(9);
                 if (!int.TryParse(userinput, out int number))
@@ -205,7 +239,23 @@ namespace DominikADigitalNumeracyAssignment
                 int dec = Binary.HexToDecimal(userinput);
                 return $"{dec}";
             }
-            else if (input.StartsWith("binAdd "))
+            //Hexadecimal to binary
+            else if (input.StartsWith("hextobin "))
+            {
+                string userinput = input.Substring(9);
+                //Check to make sure characters input are valid (0-9, A-F)
+                foreach (char character in userinput)
+                {
+                    if (!(char.IsDigit(character) || (character >= 'A' && character <= 'F') || (character >= 'a' && character <= 'f')))
+                    {
+                        return "ERROR: Invalid equation";
+                    }
+                }
+                string binary = Binary.HexToBinary(userinput.ToUpper());
+                return binary;
+            }
+            //Binary addition
+            else if (input.StartsWith("binadd "))
             {
                 string[] parts = input.Split(' ');
                 //Make sure input is valid ("binadd" "0111" "011001" = 3)
@@ -215,17 +265,18 @@ namespace DominikADigitalNumeracyAssignment
                 }
                 string bin1 = parts[1];
                 string bin2 = parts[2];
-                foreach (char c in bin1)
+                foreach (char character in bin1)
                 {
                     //Only allow 0 and 1 in both bin1 and bin2
-                    if (c != '0' && c != '1')
+                    if (character != '0' && character != '1')
                     {
                         return "ERROR: Invalid equation";
                     }
                 }
-                foreach (char c in bin2)
+                //Make sure only 1 and 0s are entered
+                foreach (char character in bin2)
                 {
-                    if (c != '0' && c != '1')
+                    if (character != '0' && character != '1')
                     {
                         return "ERROR: Invalid equation";
                     }
@@ -233,7 +284,8 @@ namespace DominikADigitalNumeracyAssignment
                 string result = Binary.AddBinary(bin1, bin2);
                 return result;
             }
-            else if (input.StartsWith("signedSub "))
+            //Signed binary subtraction
+            else if (input.StartsWith("signedsub "))
             {
                 string[] parts = input.Split(' ');
                 //Make sure input is valid ("binadd" "0111" "011001" = 3)
@@ -243,10 +295,10 @@ namespace DominikADigitalNumeracyAssignment
                 }
                 string bin1 = parts[1];
                 string bin2 = parts[2];
-                foreach (char c in bin1)
+                foreach (char character in bin1)
                 {
                     //Only allow 0 and 1 in both bin1 and bin2
-                    if (c != '0' && c != '1')
+                    if (character != '0' && character != '1')
                     {
                         return "ERROR: Invalid equation";
                     }
@@ -266,7 +318,8 @@ namespace DominikADigitalNumeracyAssignment
                 string result = Binary.SignedSub(bin1, bin2);
                 return result;
             }
-            else if (input.StartsWith("binSub "))
+            //Unsigned binary subtraction
+            else if (input.StartsWith("binsub "))
             {
                 string[] parts = input.Split(' ');
                 //Make sure input is valid ("binsub" "0111" "011001" = 3)
@@ -276,17 +329,17 @@ namespace DominikADigitalNumeracyAssignment
                 }
                 string bin1 = parts[1];
                 string bin2 = parts[2];
-                foreach (char c in bin1)
+                foreach (char character in bin1)
                 {
                     //Only allow 0 and 1 in both bin1 and bin2
-                    if (c != '0' && c != '1')
+                    if (character != '0' && character != '1')
                     {
                         return "ERROR: Invalid equation";
                     }
                 }
-                foreach (char c in bin2)
+                foreach (char character in bin2)
                 {
-                    if (c != '0' && c != '1')
+                    if (character != '0' && character != '1')
                     {
                         return "ERROR: Invalid equation";
                     }
@@ -294,6 +347,64 @@ namespace DominikADigitalNumeracyAssignment
                 string result = Binary.SubtractBinary(bin1, bin2);
                 return result;
             }
+            //BCD Addition
+            else if (input.StartsWith("bcd "))
+            {
+                string[] parts = input.Split(' ');
+                //Check to make sure each nibble has 4 length
+                if (parts.Length != 3)
+                {
+                    return "ERROR: Invalid equation";
+                }
+                string bcd1 = parts[1];
+                string bcd2 = parts[2];
+                //Check the first bcd value to make sure only 1 and 0s are entered
+                foreach (char character in bcd1)
+                {
+                    if (character != '0' && character != '1')
+                    {
+                        return "ERROR: Invalid equation";
+                    }
+                }
+                //Check the first bcd value to make sure only 1 and 0s are entered
+                foreach (char character in bcd2)
+                {
+                    if (character != '0' && character != '1')
+                    {
+                        return "ERROR: Invalid equation";
+                    }
+                }
+                //Check to make sure both nibbles have a length of 4
+                if (bcd1.Length % 4 != 0 || bcd2.Length % 4 != 0)
+                {
+                    return "ERROR: Invalid equation";
+                }
+                string result = Binary.AddBCD(bcd1, bcd2);
+                return result;
+            }
+            //BCD to decimal
+            else if (input.StartsWith("bcdtodec "))
+            {
+                string bcd = input.Substring(9);
+                //Remove any potential spacing between nibbles
+                bcd = bcd.Replace(" ", "");
+                //Make sure only 1 and 0s are entered
+                foreach (char character in bcd)
+                {
+                    if (character != '0' && character != '1')
+                    {
+                        return "ERROR: Invalid equation";
+                    }
+                }
+                //4 bits only
+                if (bcd.Length % 4 != 0)
+                {
+                    return "ERROR: BCD must be in groups of 4 bits";
+                }
+                int result = Binary.BCDToDecimal(bcd);
+                return result.ToString();
+            }
+            //Basic calculations
             else
             {
                 //Make sure user's input does not start with an operator
@@ -343,10 +454,19 @@ namespace DominikADigitalNumeracyAssignment
                     //Check for operators
                     else if ("+-*/^%".Contains(character))
                     {
-                        numbers.Add(Convert.ToDouble(currentNumber));
-                        operators.Add(character);
-                        //Reset the current number
-                        currentNumber = "";
+                        //Check for negative number as long as '-' is the first character in a 'currentNumber'
+                        if (character == '-' &&
+                            (i == 0 || "+-*/^%".Contains(input[i - 1])))
+                        {
+                            currentNumber += '-';
+                        }
+                        //Add to the current number
+                        else
+                        {
+                            numbers.Add(Convert.ToDouble(currentNumber));
+                            operators.Add(character);
+                            currentNumber = "";
+                        }
                     }
                     else if (character != ' ')
                     {

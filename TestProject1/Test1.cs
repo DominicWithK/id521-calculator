@@ -144,5 +144,61 @@ namespace TestProject1
             string result = Binary.DecimalToBCD("99");
             Assert.AreEqual("1001 1001", result);
         }
+        [TestMethod]
+        public void BCDtodectest()
+        {
+            int result = Binary.BCDToDecimal("1001 1001");
+            Assert.AreEqual(99, result);
+        }
+        [TestMethod]
+        public void binaryaddTest()
+        {
+            string result = Binary.AddBinary("1110", "0001");
+            Assert.AreEqual("1111", result);
+        }
+        [TestMethod]
+        public void binarysubTest()
+        {
+            string result = Binary.SubtractBinary("1110", "0001");
+            Assert.AreEqual("1101", result);
+        }
+        [TestMethod]
+        public void signedbinarysubTest()
+        {
+            string result = Binary.SignedSub("1111", "0010");
+            Assert.AreEqual("1101", result);
+        }
+        [TestMethod]
+        public void signedbinarysuboverflowTest()
+        {
+            string result = Binary.SignedSub("1000", "0001");
+            Assert.AreEqual("0111 (Overflow)", result);
+        }
+        [TestMethod]
+        public void BCDAdd_SingleDigit()
+        {
+            string result = Binary.AddBCD("0001", "0010");
+            Assert.AreEqual("0011", result);
+        }
+        [TestMethod]
+        public void BCDAdd_Carry()
+        {
+            string result = Binary.AddBCD("0101", "0111");
+            Assert.AreEqual("0001 0010", result);
+        }
+        [TestMethod]
+        public void BCDAdd_TwoDigits()
+        {
+            string result = Binary.AddBCD("00010010", "00100010");
+            Assert.AreEqual("0011 0100", result);
+        }
+        [TestMethod]
+        public void InvalidInputs()
+        {
+            string result = Parser.Process("FKAPW #T@WA#GVFKAWGAW #F PLVD V");
+            Assert.AreEqual("ERROR: Invalid equation", result);
+            string result2 = Parser.Process("8+2*5)-409=2");
+            Assert.AreEqual("ERROR: Invalid equation", result2);
+        }
     }
 }

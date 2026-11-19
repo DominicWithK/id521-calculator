@@ -1,13 +1,4 @@
-﻿## AI log format
-**Prompt:** Prompt goes here
-
-**Response:** Response goes here
-
-**How I used it:** Use case goes here
-## #################################################################################################################################################>
-# AI Log: ID521 Calculator
-
-## 2 Nov 2026: Project setup
+﻿# AI Log: ID521 Calculator
 **Prompt:** I'm making a mathematical calculator program. A blank interface with multiple operations such as:MatricesBinaryCryptographyGeometry And VectorsNumber TheoryIn visual studio. How should I structure my program? No code, just foundation to get started. I also want to upload it as a repo to github to work on it from multiple computers.
 
 **Response:** For a project like this, think of it less as "one calculator" and more as a collection of mathematical tools under a common interface.
@@ -1937,4 +1928,209 @@ and lets your program return a friendly error instead.
 For a calculator project, TryParse() is almost always the simplest and most professional solution.
 
 **How I used it:** I used this to create a solution to checking if certain inputs have illegal characters so that I can print an error message instead of the compiler crashing.
+## #################################################################################################################################################>
+**Prompt:** What are some formulas between converting decimal to binary, decimal to hex, binary to hex and vice versa?
+
+**Response:** For your assignment, these are the key formulas you'll want to remember.
+
+Decimal → Binary
+
+Repeatedly divide by 2 and record the remainders.
+
+Formula:
+
+Remainder = Decimal % 2
+Decimal = Decimal / 2
+
+
+Example:
+
+13 ÷ 2 = 6 remainder 1
+6 ÷ 2 = 3 remainder 0
+3 ÷ 2 = 1 remainder 1
+1 ÷ 2 = 0 remainder 1
+
+
+Read from bottom to top:
+
+1101
+
+
+So:
+
+13₁₀ = 1101₂
+
+Binary → Decimal
+
+Multiply each bit by its power of 2.
+
+Formula:
+
+Decimal = Σ(bit × 2^position)
+
+
+Example:
+
+1101
+
+1 × 2³ = 8
+1 × 2² = 4
+0 × 2¹ = 0
+1 × 2⁰ = 1
+
+8 + 4 + 0 + 1 = 13
+
+
+So:
+
+1101₂ = 13₁₀
+
+Decimal → Hexadecimal
+
+Repeatedly divide by 16 and record the remainders.
+
+Formula:
+
+Remainder = Decimal % 16
+Decimal = Decimal / 16
+
+
+Example:
+
+26 ÷ 16 = 1 remainder 10
+1 ÷ 16 = 0 remainder 1
+
+10 = A
+
+
+Reading bottom to top:
+
+1A
+
+
+So:
+
+26₁₀ = 1A₁₆
+
+Hexadecimal → Decimal
+
+Multiply each digit by its power of 16.
+
+Formula:
+
+Decimal = Σ(digit × 16^position)
+
+
+Example:
+
+1A
+
+1 × 16¹ = 16
+A(10) × 16⁰ = 10
+
+16 + 10 = 26
+
+
+So:
+
+1A₁₆ = 26₁₀
+
+Binary → Hexadecimal
+
+Group bits into nibbles (4 bits).
+
+Formula:
+
+1 Hex Digit = 4 Binary Digits
+
+
+Example:
+
+11111111
+
+
+Group:
+
+1111 1111
+
+
+Convert:
+
+1111 = F
+1111 = F
+
+
+Result:
+
+FF
+
+
+So:
+
+11111111₂ = FF₁₆
+
+
+Useful table:
+
+0000 = 0
+0001 = 1
+0010 = 2
+0011 = 3
+0100 = 4
+0101 = 5
+0110 = 6
+0111 = 7
+1000 = 8
+1001 = 9
+1010 = A
+1011 = B
+1100 = C
+1101 = D
+1110 = E
+1111 = F
+
+Hexadecimal → Binary
+
+Replace each hex digit with its 4-bit equivalent.
+
+Example:
+
+2F
+
+2 = 0010
+F = 1111
+
+
+Result:
+
+00101111
+
+
+So:
+
+2F₁₆ = 00101111₂
+
+Quick Exam Summary
+Decimal → Binary
+Divide by 2, keep remainders.
+
+Binary → Decimal
+Σ(bit × 2^position)
+
+Decimal → Hex
+Divide by 16, keep remainders.
+
+Hex → Decimal
+Σ(digit × 16^position)
+
+Binary → Hex
+Group into 4 bits.
+
+Hex → Binary
+Replace each digit with 4 bits.
+
+
+These are the exact formulas I'd memorize for explaining your methods in comments, a report, or a teacher demonstration.
+
+**How I used it:** I used this to create methods that could convert decimal, binary, hexadecimal and BCD between each other
 ## #################################################################################################################################################>

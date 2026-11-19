@@ -10,6 +10,7 @@ namespace DominikADigitalNumeracyAssignment
     {
         public static string DecimalToBinary(int number)
         {
+            //0 remains the same
             if (number == 0)
             {
                 return "0";
@@ -26,17 +27,18 @@ namespace DominikADigitalNumeracyAssignment
         }
         public static int BinaryToDecimal(string binary)
         {
-            int decimalNumber = 0;
+            int decimalnumber = 0;
             int power = 1;
+            //Calculate binary to decimal
             for (int i = binary.Length - 1; i >= 0; i--)
             {
                 if (binary[i] == '1')
                 {
-                    decimalNumber += power;
+                    decimalnumber += power;
                 }
                 power *= 2;
             }
-            return decimalNumber;
+            return decimalnumber;
         }
         public static string DecimalToHexadecimal(int number)
         {
@@ -189,36 +191,42 @@ namespace DominikADigitalNumeracyAssignment
                 }
                 else
                 {
-                    return "Error: Invalid decimal number";
+                    return "Error: ERROR decimal number";
                 }
             }
             //Trim to take off leading space
             return bcd.Trim();
         }
+        //Adds 2 binary values to each other
         public static string AddBinary(string bin1, string bin2)
         {
             string result = "";
             int carry = 0;
             int i = bin1.Length - 1;
             int j = bin2.Length - 1;
+            //Repeat while there are still bits left
             while (i >= 0 || j >= 0 || carry == 1)
             {
                 int sum = carry;
+                //Add bit from first number
                 if (i >= 0)
                 {
                     sum += bin1[i] - '0';
                     i--;
                 }
+                //Second
                 if (j >= 0)
                 {
                     sum += bin2[j] - '0';
                     j--;
                 }
                 result = (sum % 2) + result;
+                //Calculate carry for next column
                 carry = sum / 2;
             }
             return result;
         }
+        //Subtracts 2 binary values from each other
         public static string SubtractBinary(string bin1, string bin2)
         {
             string result = "";
@@ -228,13 +236,20 @@ namespace DominikADigitalNumeracyAssignment
             while (i >= 0)
             {
                 int bit1 = (bin1[i] - '0') - borrow;
-                int bit2 = (j >= 0) ? (bin2[j] - '0') : 0;
+                int bit2 = 0;
+                if (j >= 0)
+                {
+                    bit2 = bin2[j] - '0';
+                    j--;
+                }
+                //Check if need to borrow
                 if (bit1 < bit2)
                 {
                     bit1 += 2;
                     borrow = 1;
                 }
                 else
+                //No borrow
                 {
                     borrow = 0;
                 }
@@ -244,6 +259,7 @@ namespace DominikADigitalNumeracyAssignment
             }
             return result;
         }
+        //Signs binary by flipping it
         public static string SignedBinary(string binary)
         {
             char[] bits = binary.ToCharArray();
@@ -259,17 +275,66 @@ namespace DominikADigitalNumeracyAssignment
                 }
             }
             string inverted = new string(bits);
-            return AddBinary(inverted, "1");
-        }
-        public static string SignedSub(string bin1, string bin2)
-        {
-            string negativeBin2 = SignedBinary(bin2);
-            string result = AddBinary(bin1, negativeBin2);
-            if (result.Length > bin1.Length)
+            string result = AddBinary(inverted, "1");
+            //Remove overflow bit
+            if (result.Length > binary.Length)
             {
                 result = result.Substring(1);
             }
             return result;
+        }
+        //Subtraction of signed binary values
+        public static string SignedSub(string bin1, string bin2)
+        {
+            string negativeBin2 = SignedBinary(bin2);
+            string rawResult = AddBinary(bin1, negativeBin2);
+            //Check for overflow
+            bool overflow = (bin1[0] == negativeBin2[0] && rawResult[rawResult.Length - bin1.Length] != bin1[0]);
+            string result = rawResult;
+            //Remove overflow bit
+            if (result.Length > bin1.Length)
+            {
+                result = result.Substring(1);
+            }
+            if (overflow == true)
+            {
+                result += " (Overflow)";
+            }
+            return result;
+        }
+        //Converts BCD to decimal
+        public static int BCDToDecimal(string bcd)
+        {
+            //Remove spaces
+            bcd = bcd.Replace(" ", "");
+            int result = 0;
+            //Repeat for each digit
+            for (int i = 0; i < bcd.Length; i += 4)
+            {
+                //Create nibbles
+                string nibble = bcd.Substring(i, 4);
+                int digit = BinaryToDecimal(nibble);
+                //Safety check for invalid BCD
+                if (digit > 9)
+                {
+                    return -1;
+                }
+                result = result * 10 + digit;
+            }
+            return result;
+        }
+        //Add BCD values together
+        public static string AddBCD(string bcd1, string bcd2)
+        {
+            int decimal1 = BCDToDecimal(bcd1);
+            int decimal2 = BCDToDecimal(bcd2);
+            //If invalid BCD character (>9)
+            if (decimal1 == -1 || decimal2 == -1)
+            {
+                return "ERROR: Invalid equation";
+            }
+            int total = decimal1 + decimal2;
+            return DecimalToBCD(total.ToString());
         }
     }
 }

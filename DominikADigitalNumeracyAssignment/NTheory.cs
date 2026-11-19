@@ -40,7 +40,7 @@ namespace DominikADigitalNumeracyAssignment
             int increment = 3;
             int modulus = 16;
             string randomNumbers = "";
-            do
+            do     //Formula
             {
                 seed = (multiplier * seed + increment) % modulus;
                 randomNumbers += $"{seed}\n";
@@ -94,7 +94,6 @@ namespace DominikADigitalNumeracyAssignment
             //Formula
             return $"{(10 - (total % 10)) % 10}";
         }
-
         public static string CalculateEAN13orISBN13(string code)
         {
             int sum = 0;
