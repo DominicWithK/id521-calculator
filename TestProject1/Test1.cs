@@ -33,8 +33,8 @@ namespace TestProject1
         [TestMethod]
         public void ModuloTest()
         {
-            string result = Parser.Process("6 % 4");
-            Assert.AreEqual("2", result);
+            string result = Parser.Process("999 % 334");
+            Assert.AreEqual("331", result);
         }
         [TestMethod]
         public void ExponentTest()

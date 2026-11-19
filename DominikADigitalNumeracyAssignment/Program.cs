@@ -75,6 +75,10 @@
         Operators
           +, -, *, /, %, ^
 
+        Example:
+        >binadd 0001 1110
+        1111
+
         """;
         }
     }

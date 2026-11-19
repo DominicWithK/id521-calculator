@@ -499,7 +499,7 @@ namespace DominikADigitalNumeracyAssignment
                 //Multiplication, division and modulus
                 for (int i = 0; i < operators.Count;)
                 {
-                    if (operators[i] == '*' || operators[i] == '/')
+                    if (operators[i] == '*' || operators[i] == '/' || operators[i] == '%')
                     {
                         double result;
                         //Modulus
@@ -513,7 +513,7 @@ namespace DominikADigitalNumeracyAssignment
                             result = numbers[i] % numbers[i + 1];
                         }
                         //Multiplication
-                        if (operators[i] == '*')
+                        else if (operators[i] == '*')
                         {
                             result = numbers[i] * numbers[i + 1];
                         }
