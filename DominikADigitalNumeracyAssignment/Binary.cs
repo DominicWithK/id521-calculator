@@ -195,5 +195,81 @@ namespace DominikADigitalNumeracyAssignment
             //Trim to take off leading space
             return bcd.Trim();
         }
+        public static string AddBinary(string bin1, string bin2)
+        {
+            string result = "";
+            int carry = 0;
+            int i = bin1.Length - 1;
+            int j = bin2.Length - 1;
+            while (i >= 0 || j >= 0 || carry == 1)
+            {
+                int sum = carry;
+                if (i >= 0)
+                {
+                    sum += bin1[i] - '0';
+                    i--;
+                }
+                if (j >= 0)
+                {
+                    sum += bin2[j] - '0';
+                    j--;
+                }
+                result = (sum % 2) + result;
+                carry = sum / 2;
+            }
+            return result;
+        }
+        public static string SubtractBinary(string bin1, string bin2)
+        {
+            string result = "";
+            int borrow = 0;
+            int i = bin1.Length - 1;
+            int j = bin2.Length - 1;
+            while (i >= 0)
+            {
+                int bit1 = (bin1[i] - '0') - borrow;
+                int bit2 = (j >= 0) ? (bin2[j] - '0') : 0;
+                if (bit1 < bit2)
+                {
+                    bit1 += 2;
+                    borrow = 1;
+                }
+                else
+                {
+                    borrow = 0;
+                }
+                result = (bit1 - bit2) + result;
+                i--;
+                j--;
+            }
+            return result;
+        }
+        public static string SignedBinary(string binary)
+        {
+            char[] bits = binary.ToCharArray();
+            for (int i = 0; i < bits.Length; i++)
+            {
+                if (bits[i] == '0')
+                {
+                    bits[i] = '1';
+                }
+                else
+                {
+                    bits[i] = '0';
+                }
+            }
+            string inverted = new string(bits);
+            return AddBinary(inverted, "1");
+        }
+        public static string SignedSub(string bin1, string bin2)
+        {
+            string negativeBin2 = SignedBinary(bin2);
+            string result = AddBinary(bin1, negativeBin2);
+            if (result.Length > bin1.Length)
+            {
+                result = result.Substring(1);
+            }
+            return result;
+        }
     }
 }

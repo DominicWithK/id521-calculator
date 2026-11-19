@@ -54,14 +54,15 @@
           affineBf (text)                      Affine decryption brute force
 
         Number Theory
-          isPrime    (number)                  Check for primes
-          LCG        (seed)                    Linear congruential method
+          isPrime (number)                     Check for primes
+          LCG (seed)                           Linear congruential method
           checkDigit (code)                    UPC, EAN, ISBN
 
         Binary
-          binAdd   (binary) + (binary)         Binary addition of a signed/unsigned number
-          binSub   (binary) - (binary)         Binary subtraction of a signed/unsigned number
-          BCD      (BCD) + (BCD)               Addition of BCD numbers
+          binAdd (binary) (binary)             Binary addition of a signed/unsigned number
+          binSub (binary) (binary)             Binary subtraction of an unsigned number
+          signedSub (binary) (binary)          Binary subtraction of a signed number
+          BCD (BCD) (BCD)                      Addition of BCD numbers
           dectoBin (decimal)                   Decimal to binary
           dectoHex (decimal)                   Decimal to hexadecimal
           bintoDec (binary)                    Binary to decimal

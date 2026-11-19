@@ -34,7 +34,7 @@ namespace DominikADigitalNumeracyAssignment
                 {
                     return caesarentext;
                 }
-                return "ERROR: Negative shift.";
+                return "ERROR: Invalid equation";
             }
             //Caesar Decrypt
             else if (input.StartsWith("caesarDe "))
@@ -45,7 +45,7 @@ namespace DominikADigitalNumeracyAssignment
                 string inputshift = Console.ReadLine();
                 if (!int.TryParse(inputshift, out int caesardeshift))
                 {
-                    return "ERROR: Shift must be a whole number.";
+                    return "ERROR: Invalid equation";
                 }
                 string caesardetext = Cryptography.CaesarEncrypt(text, 26 - caesardeshift);
                 if (caesardeshift >= 0)
@@ -56,7 +56,7 @@ namespace DominikADigitalNumeracyAssignment
                 {
                     return caesardetext;
                 }
-                    return "ERROR: Negative shift.";
+                return "ERROR: Invalid equation";
             }
             //Affine encrypt
             else if (input.StartsWith("affineEn "))
@@ -123,7 +123,7 @@ namespace DominikADigitalNumeracyAssignment
                 string usernumber = input.Substring(8);
                 if (!int.TryParse(usernumber, out int number))
                 {
-                    return "Error: Number must be a whole number.";
+                    return "ERROR: Invalid equation";
                 }
                 string isaprime = NTheory.isPrime(number);
                 return isaprime;
@@ -134,7 +134,7 @@ namespace DominikADigitalNumeracyAssignment
                 string number = input.Substring(4);
                 if (!int.TryParse(number, out int seed))
                 {
-                    return "ERROR: Seed must be a whole number.";
+                    return "ERROR: Invalid equation";
                 }
                 string randomnumbers = NTheory.LCG(seed);
                 return randomnumbers;
@@ -145,7 +145,7 @@ namespace DominikADigitalNumeracyAssignment
                 string code = input.Substring(11);
                 if (!int.TryParse(code, out int number))
                 {
-                    return "ERROR: Code must be a whole number.";
+                    return "ERROR: Invalid equation";
                 }
                 string calculated = NTheory.CheckDigit(code);
                 return calculated;
@@ -156,7 +156,7 @@ namespace DominikADigitalNumeracyAssignment
                 string userinput = input.Substring(9);
                 if (!int.TryParse(userinput, out int number))
                 {
-                    return "ERROR: Number must be a whole number.";
+                    return "ERROR: Invalid equation";
                 }
                 string binary = Binary.DecimalToBinary(number);
                 return binary;
@@ -167,7 +167,7 @@ namespace DominikADigitalNumeracyAssignment
                 string userinput = input.Substring(9);
                 if (!int.TryParse(userinput, out int number))
                 {
-                    return "ERROR: Number must be a whole number.";
+                    return "ERROR: Invalid equation";
                 }
                 string hex = Binary.DecimalToHexadecimal(number);
                 return hex;
@@ -178,7 +178,7 @@ namespace DominikADigitalNumeracyAssignment
                 string userinput = input.Substring(9);
                 if (!int.TryParse(userinput, out int number))
                 {
-                    return "ERROR: Number must be a whole number.";
+                    return "ERROR: Invalid equation";
                 }
                 int dec = Binary.BinaryToDecimal(userinput);
                 return $"{dec}";
@@ -189,7 +189,7 @@ namespace DominikADigitalNumeracyAssignment
                 string userinput = input.Substring(9);
                 if (!int.TryParse(userinput, out int number))
                 {
-                    return "ERROR: Number must be a whole number.";
+                    return "ERROR: Invalid equation";
                 }
                 string hex = Binary.BinaryToHex(userinput);
                 return hex;
@@ -200,22 +200,106 @@ namespace DominikADigitalNumeracyAssignment
                 string userinput = input.Substring(9);
                 if (!int.TryParse(userinput, out int number))
                 {
-                    return "ERROR: Number must be a whole number.";
+                    return "ERROR: Invalid equation";
                 }
                 int dec = Binary.HexToDecimal(userinput);
                 return $"{dec}";
             }
+            else if (input.StartsWith("binAdd "))
+            {
+                string[] parts = input.Split(' ');
+                //Make sure input is valid ("binadd" "0111" "011001" = 3)
+                if (parts.Length != 3)
+                {
+                    return "ERROR: Invalid equation";
+                }
+                string bin1 = parts[1];
+                string bin2 = parts[2];
+                foreach (char c in bin1)
+                {
+                    //Only allow 0 and 1 in both bin1 and bin2
+                    if (c != '0' && c != '1')
+                    {
+                        return "ERROR: Invalid equation";
+                    }
+                }
+                foreach (char c in bin2)
+                {
+                    if (c != '0' && c != '1')
+                    {
+                        return "ERROR: Invalid equation";
+                    }
+                }
+                string result = Binary.AddBinary(bin1, bin2);
+                return result;
+            }
+            else if (input.StartsWith("signedSub "))
+            {
+                string[] parts = input.Split(' ');
+                //Make sure input is valid ("binadd" "0111" "011001" = 3)
+                if (parts.Length != 3)
+                {
+                    return "ERROR: Invalid equation";
+                }
+                string bin1 = parts[1];
+                string bin2 = parts[2];
+                foreach (char c in bin1)
+                {
+                    //Only allow 0 and 1 in both bin1 and bin2
+                    if (c != '0' && c != '1')
+                    {
+                        return "ERROR: Invalid equation";
+                    }
+                }
+                foreach (char character in bin2)
+                {
+                    if (character != '0' && character != '1')
+                    {
+                        return "ERROR: Invalid equation";
+                    }
+                }
+                //Make sure binary values are the same length, otherwise signed subtraction gives incorrect results - instead will give an error
+                if (bin1.Length != bin2.Length)
+                {
+                    return "ERROR: Binary numbers must have the same number of bits";
+                }
+                string result = Binary.SignedSub(bin1, bin2);
+                return result;
+            }
+            else if (input.StartsWith("binSub "))
+            {
+                string[] parts = input.Split(' ');
+                //Make sure input is valid ("binsub" "0111" "011001" = 3)
+                if (parts.Length != 3)
+                {
+                    return "ERROR: Invalid equation";
+                }
+                string bin1 = parts[1];
+                string bin2 = parts[2];
+                foreach (char c in bin1)
+                {
+                    //Only allow 0 and 1 in both bin1 and bin2
+                    if (c != '0' && c != '1')
+                    {
+                        return "ERROR: Invalid equation";
+                    }
+                }
+                foreach (char c in bin2)
+                {
+                    if (c != '0' && c != '1')
+                    {
+                        return "ERROR: Invalid equation";
+                    }
+                }
+                string result = Binary.SubtractBinary(bin1, bin2);
+                return result;
+            }
             else
             {
-                //Test for empty input
-                if (string.IsNullOrWhiteSpace(input))
-                {
-                    return "Error: No input provided.";
-                }
                 //Make sure user's input does not start with an operator
                 if ("+*/^%".Contains(input[0]))
                 {
-                    return "Error: Equations cannot start with an operator.";
+                    return "ERROR: Invalid equation";
                 }
                 //Create a list. The numbers list holds numbers (e.g. '8', '629') and operators holds operators (^, *, /, %, +, -)
                 List<double> numbers = new List<double>();
@@ -229,7 +313,7 @@ namespace DominikADigitalNumeracyAssignment
                     int close = input.IndexOf(')', open);
                     if (close == -1)
                     {
-                        return "Error: Missing closing bracket.";
+                        return "ERROR: Invalid equation";
                     }
                     //Get the numbers inside the bracket
                     string inside = input.Substring(open + 1, close - open - 1);
@@ -246,7 +330,7 @@ namespace DominikADigitalNumeracyAssignment
                 //Check if input has a closing bracket - this shouldn't happen as brackets are deleted when the input string is rewritten
                 if (input.Contains(')'))
                 {
-                    return "Error: Missing opening bracket.";
+                    return "ERROR: Invalid equation";
                 }
                 for (int i = 0; i < input.Length; i++)
                 {
@@ -266,13 +350,13 @@ namespace DominikADigitalNumeracyAssignment
                     }
                     else if (character != ' ')
                     {
-                        return "Error: Invalid character detected.";
+                        return "ERROR: Invalid equation";
                     }
                 }
                 //Check if 'currentNumber' is empty = This shouldn't happen as long as the equation doesn't end with an operator, as it wipes currentNumber.
                 if (currentNumber == "")
                 {
-                    return "Error: Equation cannot end with an operator.";
+                    return "ERROR: Invalid equation";
                 }
                 numbers.Add(Convert.ToDouble(currentNumber));
                 //Calculate exponents
@@ -301,9 +385,10 @@ namespace DominikADigitalNumeracyAssignment
                         //Modulus
                         if (operators[i] == '%')
                         {
+                            //Division by zero check
                             if (numbers[i + 1] == 0)
                             {
-                                return "Error: Cannot divide by zero.";
+                                return "ERROR: Invalid equation";
                             }
                             result = numbers[i] % numbers[i + 1];
                         }
@@ -315,9 +400,10 @@ namespace DominikADigitalNumeracyAssignment
                         //Division
                         else
                         {
+                            //Another division by zero check
                             if (numbers[i + 1] == 0)
                             {
-                                return "Error: Cannot divide by zero.";
+                                return "ERROR: Invalid equation";
                             }
                             result = numbers[i] / numbers[i + 1];
                         }
