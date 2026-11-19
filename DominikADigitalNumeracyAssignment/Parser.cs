@@ -42,7 +42,11 @@ namespace DominikADigitalNumeracyAssignment
                 bool valid = false;
                 string text = input.Substring(9);
                 Console.Write("Shift: ");
-                int caesardeshift = Convert.ToInt32(Console.ReadLine());
+                string inputshift = Console.ReadLine();
+                if (!int.TryParse(inputshift, out int caesardeshift))
+                {
+                    return "ERROR: Shift must be a whole number.";
+                }
                 string caesardetext = Cryptography.CaesarEncrypt(text, 26 - caesardeshift);
                 if (caesardeshift >= 0)
                 {
